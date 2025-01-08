@@ -1,0 +1,8 @@
+*.[oa]
+Mercury/
+build/
+*.err
+*.mh
+tags
+fhhg
+Mercury.modules
