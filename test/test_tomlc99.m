@@ -80,6 +80,29 @@ test_toml_array_in(Path, Tbl, Key, !IO) :-
     else
       io.write_string("No table " ++ Tbl ++ " in " ++ Path ++ "\n", !IO))
   ).
+
+:- pred test_toml_string_at(string::in, string::in, string::in, int::in, 
+  io::di, io::uo) is det.
+test_toml_string_at(Path, Tbl, Key, Idx, !IO) :-
+  toml_parse_file(Path, Res, !IO),
+  (
+    Res = error(Msg),
+    io.write_string(Msg ++ "\n", !IO)
+  ;
+    Res = ok(BigTable),
+    (if Table = toml_table_in(BigTable, Tbl) then 
+      (if Arr = toml_array_in(Table, Key) then
+        (if Str = toml_string_at(Arr, Idx) then 
+          io.write_string(
+            "Found string " ++ Str ++ " at " ++ string(Idx) ++ "\n", !IO
+          )
+        else
+          io.write_string( "No string at index " ++ string(Idx) ++ "\n", !IO))
+      else
+        io.write_string("No array at " ++ Key ++ " in " ++ Path ++ "\n", !IO))
+    else
+      io.write_string("No table " ++ Tbl ++ " in " ++ Path ++ "\n", !IO))
+  ).
   
 
 main(!IO) :-
@@ -93,4 +116,7 @@ main(!IO) :-
   test_toml_string_in("data/simple.toml", "hello", "does_not_exist", !IO),
 
   test_toml_array_in("data/simple.toml", "hello", "thing two", !IO),
-  test_toml_array_in("data/simple.toml", "hello", "does_not_exist", !IO).
+  test_toml_array_in("data/simple.toml", "hello", "does_not_exist", !IO),
+
+  test_toml_string_at("data/simple.toml", "hello", "thing two", 1, !IO),
+  test_toml_string_at("data/simple.toml", "hello", "thing two", 2, !IO).

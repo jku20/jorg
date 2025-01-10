@@ -33,6 +33,11 @@
 :- func toml_array_in(toml_table::in, string::in) = (toml_array::out)
   is semidet.
 
+% Given an array and an index, returns the string at that index if one exists.
+% If the index is too large, this function is not satisfied.
+:- func toml_string_at(toml_array::in, int::in) = (string::out)
+  is semidet.
+
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
@@ -72,6 +77,17 @@
   [will_not_call_mercury, promise_pure],
 "
   toml_datum_t s = toml_string_in(InTable, Key);
+  if (s.ok) {
+    MR_make_aligned_string_copy_msg(Str, s.u.s, MR_ALLOC_ID);
+  }
+  SUCCESS_INDICATOR = s.ok;
+").
+
+:- pragma foreign_proc("C",
+  toml_string_at(Arr::in, Idx::in) = (Str::out),
+  [will_not_call_mercury, promise_pure],
+"
+  toml_datum_t s = toml_string_at(Arr, Idx);
   if (s.ok) {
     MR_make_aligned_string_copy_msg(Str, s.u.s, MR_ALLOC_ID);
   }
