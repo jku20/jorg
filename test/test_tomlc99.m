@@ -30,8 +30,24 @@ test_toml_parse_file(Path, !IO) :-
     Res = error(S)
   ),
   io.write_string(S ++ "\n", !IO).
+
+:- pred test_toml_table_in(string::in, string::in, io::di, io::uo) is det.
+test_toml_table_in(Path, Key, !IO) :-
+  toml_parse_file(Path, Res, !IO),
+  (
+    Res = error(Msg),
+    io.write_string(Msg ++ "\n", !IO)
+  ;
+    Res = ok(Table),
+    (if TableOut = toml_table_in(Table, Key) then
+      io.write_string("Found table " ++ Key ++ " in " ++ Path ++ "\n", !IO)
+    else
+      io.write_string("No table " ++ Key ++ " in " ++ Path ++ "\n", !IO))
+  ).
   
 
 main(!IO) :-
   test_toml_parse_file("does_not_exist.toml", !IO),
-  test_toml_parse_file("data/simple.toml", !IO).
+  test_toml_parse_file("data/simple.toml", !IO),
+  test_toml_table_in("data/simple.toml", "hello", !IO),
+  test_toml_table_in("data/simple.toml", "does_not_exist", !IO).

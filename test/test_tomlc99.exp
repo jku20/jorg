@@ -1,2 +1,4 @@
 cannot open file does_not_exist.toml
 parse successful
+Found table hello in data/simple.toml
+No table does_not_exist in data/simple.toml

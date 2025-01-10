@@ -17,6 +17,11 @@
 :- pred toml_parse_file(string::in, maybe.maybe_error(toml_table)::out, io::di,
   io::uo) is det.
 
+% Given a table and a key, returns a table at that key if one exists.
+% If no table exists, this function is not satisfied.
+:- func toml_table_in(toml_table::in, string::in) = (toml_table::out)
+  is semidet.
+
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
@@ -26,9 +31,6 @@
 
 %----------------------------------------------------------------------------%
 
-:- pred toml_parse_file_h(string::in, bool.bool::out, string::out,
-  toml_table::out, io::di, io::uo) is det.
-
 :- pragma foreign_decl("C", 
 "
   #include ""toml.h""
@@ -36,6 +38,18 @@
 ").
 
 :- pragma foreign_type("C", toml_table, "toml_table_t*").
+
+:- pragma foreign_proc("C",
+  toml_table_in(InTable::in, Key::in) = (OutTable::out),
+  [will_not_call_mercury, promise_pure],
+"
+  OutTable = toml_table_in(InTable, Key);
+  SUCCESS_INDICATOR = !!OutTable;
+").
+  
+
+:- pred toml_parse_file_h(string::in, bool.bool::out, string::out,
+  toml_table::out, io::di, io::uo) is det.
 
 :- pragma foreign_proc("C",
   toml_parse_file_h(Path::in, Error::out, ErrMsg::out, Table::out, IO0::di,
