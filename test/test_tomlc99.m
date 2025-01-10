@@ -20,10 +20,9 @@
 :- import_module maybe.
 
 %----------------------------------------------------------------------------%
-%----------------------------------------------------------------------------%
 
 main(!IO) :-
-  Res = toml_parse_file("does_not_exit.toml"),
+  toml_parse_file("does_not_exit.toml", Res, !IO),
   (
     Res = ok(_), S = "passed";
     Res = error(S)
