@@ -12,6 +12,7 @@
 %----------------------------------------------------------------------------%
 
 :- type toml_table.
+:- type toml_array.
 
 % Given a file path, this returns either ok(toml_table) or error(message)
 :- pred toml_parse_file(string::in, maybe.maybe_error(toml_table)::out, io::di,
@@ -25,6 +26,11 @@
 % Given a table and a key, returns a string at that key if one exists.
 % If no table exists, this function is not satisfied.
 :- func toml_string_in(toml_table::in, string::in) = (string::out)
+  is semidet.
+
+% Given a table and a key, returns an array at that key if one exists.
+% If no table exists, this function is not satisfied.
+:- func toml_array_in(toml_table::in, string::in) = (toml_array::out)
   is semidet.
 
 %----------------------------------------------------------------------------%
@@ -43,6 +49,15 @@
 ").
 
 :- pragma foreign_type("C", toml_table, "toml_table_t*").
+:- pragma foreign_type("C", toml_array, "toml_array_t*").
+
+:- pragma foreign_proc("C",
+  toml_array_in(InTable::in, Key::in) = (OutArray::out),
+  [will_not_call_mercury, promise_pure],
+"
+  OutArray = toml_array_in(InTable, Key);
+  SUCCESS_INDICATOR = !!OutArray;
+").
 
 :- pragma foreign_proc("C",
   toml_table_in(InTable::in, Key::in) = (OutTable::out),

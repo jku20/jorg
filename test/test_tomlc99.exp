@@ -2,3 +2,7 @@ cannot open file does_not_exist.toml
 parse successful
 Found table hello in data/simple.toml
 No table does_not_exist in data/simple.toml
+Found hello at thing
+No string at does_not_exist in data/simple.toml
+Found array at thing two in data/simple.toml
+No array at does_not_exist in data/simple.toml
