@@ -22,6 +22,11 @@
 :- func toml_table_in(toml_table::in, string::in) = (toml_table::out)
   is semidet.
 
+% Given a table and a key, returns a string at that key if one exists.
+% If no table exists, this function is not satisfied.
+:- func toml_string_in(toml_table::in, string::in) = (string::out)
+  is semidet.
+
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
@@ -46,7 +51,17 @@
   OutTable = toml_table_in(InTable, Key);
   SUCCESS_INDICATOR = !!OutTable;
 ").
-  
+
+:- pragma foreign_proc("C",
+  toml_string_in(InTable::in, Key::in) = (Str::out),
+  [will_not_call_mercury, promise_pure],
+"
+  toml_datum_t s = toml_string_in(InTable, Key);
+  if (s.ok) {
+    MR_make_aligned_string_copy_msg(Str, s.u.s, MR_ALLOC_ID);
+  }
+  SUCCESS_INDICATOR = s.ok;
+").
 
 :- pred toml_parse_file_h(string::in, bool.bool::out, string::out,
   toml_table::out, io::di, io::uo) is det.
