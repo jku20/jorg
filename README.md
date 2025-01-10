@@ -28,4 +28,4 @@ TODO
 ## TODOs
 - [ ] minimum working product
     - [ ] figure out how general I want to make this
-- [ ] migrate from toml.h to something written in mercury or a better C library
+- [ ] migrate from tomlc99 to something written in mercury or a better C library
