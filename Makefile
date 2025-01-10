@@ -1,10 +1,13 @@
 .PHONY: jorg
-jorg:
+jorg: libtoml
 	@$(MAKE) -C src ../jorg
 
 .PHONY: test
-test:
+test: libtoml
 	@$(MAKE) -C test test
+
+libtoml:
+	@$(MAKE) -C tomlc99
 
 .PHONY: gen
 gen:

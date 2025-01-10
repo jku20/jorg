@@ -7,3 +7,6 @@ MCFLAGS += --grade $(GRADE)
 
 # Statically link to Mercury libraries.
 MCFLAGS-hpny += --mercury-linkage static
+
+# Find toml.h
+MCFLAGS += --c-include-directory ../tomlc99 --link-object ../tomlc99/libtoml.a
