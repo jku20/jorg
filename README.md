@@ -24,3 +24,8 @@ jorg resume.toml -o resume.pdf
 Below is an example file showing all of the supported names in the toml as well as an image of what it renders to.
 
 TODO
+
+## TODOs
+- [ ] minimum working product
+    - [ ] figure out how general I want to make this
+- [ ] migrate from toml.h to something written in mercury or a better C library
