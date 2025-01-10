@@ -1,1 +1,2 @@
-cannot open file does_not_exit.toml
+cannot open file does_not_exist.toml
+parse successful
