@@ -38,6 +38,11 @@
 :- func toml_string_at(toml_array::in, int::in) = (string::out)
   is semidet.
 
+% Given an array and an index, returns the table at that index if one exists.
+% If the index is too large, this function is not satisfied.
+:- func toml_table_at(toml_array::in, int::in) = (toml_table::out)
+  is semidet.
+
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
@@ -69,6 +74,14 @@
   [will_not_call_mercury, promise_pure],
 "
   OutTable = toml_table_in(InTable, Key);
+  SUCCESS_INDICATOR = !!OutTable;
+").
+
+:- pragma foreign_proc("C",
+  toml_table_at(InTable::in, Idx::in) = (OutTable::out),
+  [will_not_call_mercury, promise_pure],
+"
+  OutTable = toml_table_at(InTable, Idx);
   SUCCESS_INDICATOR = !!OutTable;
 ").
 

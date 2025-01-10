@@ -8,3 +8,5 @@ Found array at thing two in data/simple.toml
 No array at does_not_exist in data/simple.toml
 Found string array at 1
 No string at index 2
+Found table at 0 at world
+No table found at 1

@@ -1,3 +1,6 @@
 [hello]
 thing = "hello"
 "thing two" = ["an", "array"]
+
+[[world]]
+array_table = "wow"
