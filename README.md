@@ -5,6 +5,7 @@ A simple resume generator to take TOML and output pdf.
 - Common linux tools like `make`
 - latexmk
 - A recent-enough Mercury compiler (which also means you need a C compiler, probably gcc)
+- glib, (the package glib2-devel on fedora for example), required by the arg parse library colipa.
 
 ## Installation
 Clone `https://github.com/jku20/jorg`. In the root of the directory, type `make`. To run tests, type `make test`.
