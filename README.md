@@ -26,7 +26,39 @@ Below is an example file showing all of the supported names in the toml as well 
 
 TODO
 
-## TODOs
-- [ ] minimum working product
-    - [ ] figure out how general I want to make this
-- [ ] migrate from tomlc99 to something written in mercury or a better C library
+## Ideas for the Format
+I think the way I want to do this is as follows:
+The user makes a toml file which specifies another file as a list of "components". The schema would look like
+```toml
+[file]
+structure = ["header", "body", "repeating", "body", "repeating", "footer"]
+path = "generated file path"
+
+[header]
+src = "path to template"
+variable1_in_template = "value to replace variable with"
+variable2_in_template = "value to replace variable with"
+
+[body]
+src = "path to template"
+variable_in_template = "some value"
+repeating_variable_in_template = ["some other value", "yet another value"]
+
+[[repeating]]
+src = "path to template"
+variable_in_template = "some value"
+repeating_variable_in_template = ["some other value", "yet another value"]
+
+[[repeating]]
+src = "path to template"
+variable_in_template = "some value"
+repeating_variable_in_template = ["some other value", "yet another value"]
+
+[footer]
+src = "path to template"
+variable1_in_template = "value to replace variable with"
+variable2_in_template = "value to replace variable with"
+```
+Not sure the exact semantics yet, but at a high level what's going on is the file is the concatenation of each component. Components each have source templates which contain simple variables, or repeating expressions with variables in them. 
+
+There are normal components which are generated from a source template and variable assignments. There are also array components which let the user specify multiple components using the same name, each of which should be placed one after another. This doesn't make the tool more powerful, but it can help readability in the case of say, a repeating list.
