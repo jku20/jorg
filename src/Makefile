@@ -7,6 +7,7 @@ files = $(wildcard **.m)
 	@ln -L -f jorg ../jorg
 
 jorg: $(files) Mercury.options
+	echo $(files)
 	@$(MMC) --make $(PARALLEL) $@
 
 tags: $(files)

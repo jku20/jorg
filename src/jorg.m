@@ -17,6 +17,7 @@
 :- implementation.
 
 :- use_module driver.
+:- import_module colipa.
 
 %----------------------------------------------------------------------------%
 

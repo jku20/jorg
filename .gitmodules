@@ -1,3 +1,6 @@
 [submodule "tomlc99"]
 	path = tomlc99
 	url = git@github.com:cktan/tomlc99.git
+[submodule "colipa"]
+	path = colipa
+	url = https://gitlab.com/volkerwysk/colipa.git

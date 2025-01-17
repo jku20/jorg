@@ -10,3 +10,9 @@ MCFLAGS-jorg += --mercury-linkage static
 
 # Find toml.h
 MCFLAGS += --c-include-directory ../tomlc99 --link-object ../tomlc99/libtoml.a
+
+# Use find glib on my machine (and hopefully yours too)
+# Ideally this should be using pkg-config, but I don't think Mercury.options supports this
+# A TODO is to generate this on the fly with "sigh" something like CMake
+MCFLAGS += -lglib-2.0
+CFLAGS += -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-6 -pthread
