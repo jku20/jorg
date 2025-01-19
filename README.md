@@ -1,14 +1,22 @@
 # Jorg
-A simple resume generator to take TOML and output pdf.
+A file template tool. Specify file "templates," files with variables in them, and then substitute these variables with text specified in a TOML file.
 
 ## Dependencies 
 - Common linux tools like `make`
-- latexmk
-- A recent-enough Mercury compiler (which also means you need a C compiler, probably gcc)
+- A recent-enough ROTD build of the Mercury compiler (which also means you need a C compiler, probably gcc)
 - glib, (the package glib2-devel on fedora for example), required by the arg parse library colipa.
 
-## Installation
-Clone `https://github.com/jku20/jorg`. In the root of the directory, type `make`. To run tests, type `make test`.
+## Building
+Clone `https://github.com/jku20/jorg`. In the root of the directory, type 
+```bash
+make
+```
+This will generate the `jorg` binary in the root of the directory.
+
+To run tests, type 
+```bash
+make test
+```
 
 ## Usage
 To print help, run
@@ -16,9 +24,9 @@ To print help, run
 jorg -h
 ```
 
-To make a resume pdf, run
+To combine templates into an output file, run
 ```bash
-jorg resume.toml -o resume.pdf
+jorg template.toml -o out.txt
 ```
 
 ## TOML Format 
