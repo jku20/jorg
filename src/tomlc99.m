@@ -43,6 +43,10 @@
 :- func toml_table_at(toml_array::in, int::in) = (toml_table::out)
   is semidet.
 
+% Given a table and an index, returns the key at that index.
+% If the index is too large, this function is not satisfied.
+:- func toml_key_in(toml_table::in, int::in) = (string::out) is semidet.
+
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
@@ -60,6 +64,17 @@
 
 :- pragma foreign_type("C", toml_table, "toml_table_t*").
 :- pragma foreign_type("C", toml_array, "toml_array_t*").
+
+:- pragma foreign_proc("C",
+  toml_key_in(InTable::in, Index::in) = (Str::out),
+  [will_not_call_mercury, promise_pure],
+"
+  const char *s = toml_key_in(InTable, Index);
+  if (s) {
+    MR_make_aligned_string_copy_msg(Str, s, MR_ALLOC_ID);
+  }
+  SUCCESS_INDICATOR = !!s;
+").
 
 :- pragma foreign_proc("C",
   toml_array_in(InTable::in, Key::in) = (OutArray::out),

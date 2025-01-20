@@ -10,3 +10,6 @@ Found string array at 1
 No string at index 2
 Found table at 0 at world
 No table found at 1
+Found key thing at 0
+Found key thing two at 1
+No key found at 2

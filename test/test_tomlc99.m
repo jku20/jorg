@@ -124,6 +124,26 @@ test_toml_table_at(Path, Key, Idx, !IO) :-
       io.write_string("No table at " ++ Key ++ "\n", !IO))
   ).
 
+:- pred test_toml_key_in(string::in, string::in, int::in, io::di, io::uo)
+  is det.
+test_toml_key_in(Path, Key, Idx, !IO) :-
+  toml_parse_file(Path, Res, !IO),
+  (
+    Res = error(Msg),
+    io.write_string(Msg ++ "\n", !IO)
+  ;
+    Res = ok(Table),
+    (if T = toml_table_in(Table, Key) then
+      (if K = toml_key_in(T, Idx) then
+        io.write_string(
+          "Found key " ++ K ++ " at " ++ string(Idx) ++ "\n", !IO
+        )
+      else
+        io.write_string("No key found at " ++ string(Idx) ++ "\n", !IO))
+    else
+      io.write_string("No table at " ++ Key ++ "\n", !IO))
+  ).
+
 main(!IO) :-
   test_toml_parse_file("does_not_exist.toml", !IO),
   test_toml_parse_file("data/simple.toml", !IO),
@@ -141,4 +161,8 @@ main(!IO) :-
   test_toml_string_at("data/simple.toml", "hello", "thing two", 2, !IO),
 
   test_toml_table_at("data/simple.toml", "world", 0, !IO),
-  test_toml_table_at("data/simple.toml", "world", 1, !IO).
+  test_toml_table_at("data/simple.toml", "world", 1, !IO),
+
+  test_toml_key_in("data/simple.toml", "hello", 0, !IO),
+  test_toml_key_in("data/simple.toml", "hello", 1, !IO),
+  test_toml_key_in("data/simple.toml", "hello", 2, !IO).
