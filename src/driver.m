@@ -5,11 +5,18 @@
 :- module driver.
 :- interface.
 
-:- import_module io.
+:- import_module maybe.
+:- import_module result.
 
 %----------------------------------------------------------------------------%
 
-:- pred run(io::di, io::uo) is det.
+:- type request ---> 
+  request(
+    config :: string,
+    outfile :: string
+  ).
+
+:- func run(request::in) = (maybe_error(suc, err)::out) is det.
 
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
@@ -19,5 +26,5 @@
 %----------------------------------------------------------------------------%
 %----------------------------------------------------------------------------%
 
-run(!IO) :-
-  io.write_string("hello world\n", !IO).
+run(Req) =
+  ok(no_output_suc).
