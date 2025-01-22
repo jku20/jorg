@@ -16,7 +16,11 @@
   bug_err(string);
 
   % An error occuring when argument parsing. 
-  arg_parse_err(string).
+  arg_parse_err(string);
+
+  % Error due to table parse fail. This could be due to IO such as a file path
+  % not existing or a malformed toml.
+  table_parse_err(string).
 
 :- func err_msg(err) = string.
 
@@ -35,6 +39,7 @@
 
 err_msg(Err) = Msg :-
   Err = arg_parse_err(Msg);
+  Err = table_parse_err(Msg);
   Err = bug_err(Msg).
 
 suc_msg(Suc) = Out :- 

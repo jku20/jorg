@@ -88,7 +88,7 @@ main(!IO) :-
 
   (
     Action = request(R),
-    Result = driver.run(R)
+    driver.run(R, Result, !IO)
   ;
     Action = error(E),
     Result = error(E)
