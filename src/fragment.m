@@ -28,6 +28,7 @@
   mul(
     % The diliminator to separate repeating variables.
     delim :: string,
+
     % The name of the variable to replace.
     label :: string
   );
