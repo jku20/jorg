@@ -33,6 +33,7 @@
 %----------------------------------------------------------------------------%
 
 make_fragment_list(_) = 
+  
   error(bug_err("not implemented")).
 
 run(Req, Res, !IO) :-
